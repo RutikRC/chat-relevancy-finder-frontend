@@ -1,4 +1,5 @@
 import React from "react";
+import { useFetchRoomsQuery } from "../store/store";
 // import "./Dashboard.css"; // Assuming the styles are in an external CSS file
 
 const Dashboard = () => {
@@ -10,12 +11,13 @@ const Dashboard = () => {
     { id: 4, name: "Settings", icon: "settings" },
   ];
 
-  const previousClasses = [
-    { id: 1, title: "Math Class", questions: 10 },
-    { id: 2, title: "Science Class", questions: 15 },
-    { id: 3, title: "History Class", questions: 8 },
-  ];
-
+  // const previousClasses = [
+  //   { id: 1, title: "Math Class", questions: 10 },
+  //   { id: 2, title: "Science Class", questions: 15 },
+  //   { id: 3, title: "History Class", questions: 8 },
+  // ];
+  const {data} = useFetchRoomsQuery();
+  console.log(data);
   return (
     <div className="dashboard">
       {/* Navbar */}
@@ -57,12 +59,12 @@ const Dashboard = () => {
             <div className="previous-classes">
               <h2>Previous Classes</h2>
               <div className="class-list">
-                {previousClasses.map((classItem) => (
-                  <div key={classItem.id} className="class-card">
+                {data?.map((classItem) => (
+                  <div key={classItem.roomID} className="class-card">
                     <div className="class-info">
-                      <h3>{classItem.title}</h3>
+                      <h3>{classItem.topic}</h3>
                       <div className="questions-count">
-                        {classItem.questions} Questions
+                        {classItem.content} Content
                       </div>
                     </div>
                     <button className="view-btn">View</button>
