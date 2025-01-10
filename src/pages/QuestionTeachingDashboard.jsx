@@ -11,7 +11,7 @@ const TeachersMeetingDashboard = () => {
         { name: 'Sarah Smith', status: 'online' },
         { name: 'Mike Johnson', status: 'offline' },
     ]);
-    const {data} = useGetRoomDetailsQuery({id: id});
+    const { data } = useGetRoomDetailsQuery({ id: id });
     console.log("Room Details", data);
     const [questions, setQuestions] = useState([
         {
@@ -42,6 +42,34 @@ const TeachersMeetingDashboard = () => {
             aiResponse: null,
         },
     ]);
+
+    const sampleData = {
+        "_id": "6780c4c1d9842493a616f763",
+        "roomID": "gx75mig0",
+        "topic": "Javascript",
+        "content": "Javascript",
+        "__v": 2,
+        "messages": [
+            {
+                "_id": "6780e303ae0ff6f052a84d15",
+                "room": "gx75mig0",
+                "sender": "amay",
+                "comment": "My insta ID is Amay",
+                "prediction": "Spam",
+                "timestamp": "2025-01-10T09:06:11.086Z",
+                "__v": 0
+            },
+            {
+                "_id": "6780e4e47c18f4ff89a53f49",
+                "room": "gx75mig0",
+                "sender": "Rutvik",
+                "comment": "My insta ID is Rutvik",
+                "prediction": "Spam",
+                "timestamp": "2025-01-10T09:14:12.591Z",
+                "__v": 0
+            }
+        ]
+    }
 
     const [relatedQuestions, setRelatedQuestions] = useState([
         { text: "What are the SOLID principles in OOP?", relevance: 95 },
@@ -122,22 +150,31 @@ const TeachersMeetingDashboard = () => {
                     <span className="student-count">{studentCount} Online</span>
                 </h2>
                 <ul className="student-list">
-                    {students.map((student, index) => (
+                    {data?.messages?.map((message, index) => (
                         <li className="student-item" key={index}>
                             <span className="student-status"></span>
-                            {student.name}
+                            {message.sender}
                         </li>
                     ))}
                 </ul>
+
             </div>
 
             {/* Middle Section - Current Questions */}
             <div className="section">
                 <h2>Current Questions</h2>
                 <div id="currentQuestions">
-                    {questions.map(renderQuestionCard)}
+                    {data?.messages
+                        .filter(message => message.prediction !== "Spam")
+                        ?.map((message, index) => (
+                            <div key={index} className="question-card">
+                                <p>{message.comment}</p>
+                                <span>By {message.sender}</span>
+                            </div>
+                        ))}
                 </div>
             </div>
+
 
             {/* Right Section - Related Questions */}
             <div className="section">
