@@ -15,6 +15,10 @@ const Dashboard = () => {
     navigate(`/questions-dashboard/${record?._id}`);
   };
 
+  const handleCreate = () => {
+    navigate('/create-meeting');
+  }
+
   const {data} = useFetchRoomsQuery();
   console.log(data);
   return (
@@ -49,11 +53,9 @@ const Dashboard = () => {
           <div className="content-container">
             {/* Create Room Button */}
             <div className="create-room">
-              <Link to="/create-meeting">
-              <button className="create-btn">
+              <button className="create-btn" onClick={handleCreate}>
                 <span>Create New Room</span>
               </button>
-              </Link>
             </div>
 
             {/* Previous Classes */}
