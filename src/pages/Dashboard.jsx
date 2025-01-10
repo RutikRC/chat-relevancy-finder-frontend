@@ -25,7 +25,7 @@ const Dashboard = () => {
           <div className="logo">
             <span>Dashboard</span>
           </div>
-          <button className="logout-btn">Logout</button>
+          {/* <button className="logout-btn">Logout</button> */}
         </div>
       </nav>
 
