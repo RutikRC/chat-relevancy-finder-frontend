@@ -1,5 +1,6 @@
 import React from "react";
 import { useFetchRoomsQuery } from "../store/store";
+import { Link } from "react-router-dom";
 // import "./Dashboard.css"; // Assuming the styles are in an external CSS file
 
 const Dashboard = () => {
@@ -50,9 +51,11 @@ const Dashboard = () => {
           <div className="content-container">
             {/* Create Room Button */}
             <div className="create-room">
+              <Link to="/create-meeting">
               <button className="create-btn">
                 <span>Create New Room</span>
               </button>
+              </Link>
             </div>
 
             {/* Previous Classes */}
