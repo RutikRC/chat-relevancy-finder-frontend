@@ -12,7 +12,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const handleView = (record) => {
-    navigate(`/questions-dashboard/${record?._id}`);
+    navigate(`/questions-dashboard/${record?.roomID}`);
   };
 
   const handleCreate = () => {

@@ -6,7 +6,7 @@ const allApi = createApi({
     reducerPath: "allapis",
     baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
     refetchOnMountOrArgChange: true,
-    tagTypes: ["Room"],
+    tagTypes: ["Room", "Chat"],
     endpoints(build) {
         return {
             fetchRooms: build.query({
@@ -44,6 +44,18 @@ const allApi = createApi({
                     { type: "Room", id: arg.id },
                 ],
             }),
+            getRoomDetails: build.query({
+                query: ({ id }) => {
+                  return {
+                    url: `/api/chat/${id}`,
+                    method: "GET",
+                  };
+                },
+                providesTags: (result = [], error, arg) =>
+                  result
+                    ? [{ type: "Chat", id: result.id }, "Chat"]
+                    : ["Chat"],
+              }),
         };
     },
 });
@@ -51,5 +63,6 @@ const allApi = createApi({
 export const {
     useFetchRoomsQuery,
     useCreateRoomMutation,
+    useGetRoomDetailsQuery,
 } = allApi;
 export { allApi };
