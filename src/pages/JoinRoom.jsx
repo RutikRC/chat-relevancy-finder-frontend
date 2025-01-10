@@ -58,18 +58,13 @@ const JoinRoom = () => {
                 className="create-meeting-form"
                 onSubmit={formik.handleSubmit}
             >
-                <div className="form-header">
-                    <h1>Create New Meeting</h1>
-                    <p>Set up your virtual classroom session</p>
-                </div>
-
                 <div className="form-group">
-                    <label htmlFor="class-title">Class Title</label>
+                    <label htmlFor="class-title">Room ID</label>
                     <input
                         type="text"
                         name="roomID"
                         id="class-title"
-                        placeholder="e.g., Advanced JavaScript Concepts"
+                        placeholder="Enter the Room ID"
                         value={formik.values.roomID}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -86,12 +81,12 @@ const JoinRoom = () => {
                     ) : null}
                 </div>
                 <div className="form-group">
-                    <label htmlFor="class-title">Class Title</label>
+                    <label htmlFor="class-title">Username</label>
                     <input
                         type="text"
                         name="username"
                         id="class-title"
-                        placeholder="e.g., Advanced JavaScript Concepts"
+                        placeholder="Enter your username"
                         value={formik.values.username}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -129,4 +124,4 @@ const JoinRoom = () => {
     );
 };
 
-export default CreateMeetingForm;
+export default JoinRoom;

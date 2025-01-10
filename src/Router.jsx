@@ -7,6 +7,7 @@ import QuestionsDashboard from './pages/QuestionsDashboard';
 import CreateMeetingForm from './pages/CreateMeetingForm';
 import TeacherMeetingDashboard from './pages/TeachingQuestionDashboard';
 import TeachersMeetingDashboard from './pages/QuestionTeachingDashboard';
+import JoinRoom from './pages/JoinRoom';
 
 const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
     {
         path: "/create-meeting",
         element: <CreateMeetingForm />,
+    },
+    {
+        path: "/join-room",
+        element: <JoinRoom />,
     },
     {
         path: "/questions-dashboard/:id",
