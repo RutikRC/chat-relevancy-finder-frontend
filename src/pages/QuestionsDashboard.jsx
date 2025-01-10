@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import './questionDashboard.css';
+import { useParams } from 'react-router-dom';
 
 const QuestionsDashboard = () => {
+    const { id } = useParams();
+    console.log("ID ",id);
     // Initial State
     const [questions, setQuestions] = useState([
         { id: 1, text: "What is polymorphism in OOP?", author: "John Doe", time: "10:30 AM", relevance: 85, answered: false },

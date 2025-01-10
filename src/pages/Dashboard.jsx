@@ -1,10 +1,8 @@
 import React from "react";
 import { useFetchRoomsQuery } from "../store/store";
 import { Link, useNavigate } from "react-router-dom";
-// import "./Dashboard.css"; // Assuming the styles are in an external CSS file
 
 const Dashboard = () => {
-  // Dummy Data
   const menuItems = [
     { id: 1, name: "Dashboard", icon: "home", active: true },
     { id: 2, name: "Classes", icon: "book" },
@@ -17,11 +15,6 @@ const Dashboard = () => {
     navigate(`/questions-dashboard/${record?._id}`);
   };
 
-  // const previousClasses = [
-  //   { id: 1, title: "Math Class", questions: 10 },
-  //   { id: 2, title: "Science Class", questions: 15 },
-  //   { id: 3, title: "History Class", questions: 8 },
-  // ];
   const {data} = useFetchRoomsQuery();
   console.log(data);
   return (
