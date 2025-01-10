@@ -16,6 +16,6 @@ const store = configureStore({
 export default store;
 
 export {
-    useFetchRelevancyScoresQuery,
-    useCreateQuestionMutation,
+  useFetchRoomsQuery,
+  useCreateRoomMutation,
 } from "./apis/allApi";

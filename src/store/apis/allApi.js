@@ -6,12 +6,12 @@ const allApi = createApi({
     reducerPath: "allapis",
     baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
     refetchOnMountOrArgChange: true,
-    tagTypes: ["Relevancy-score"],
+    tagTypes: ["Room"],
     endpoints(build) {
         return {
-            fetchRelevancyScores: build.query({
+            fetchRooms: build.query({
                 query: () => ({
-                    url: "/api/category-master",
+                    url: "/api/tutor",
                     method: "GET",
                     headers: {
                         Accept: "application/json",
@@ -22,15 +22,15 @@ const allApi = createApi({
                 providesTags: (result = [], error, arg) =>
                     result?.length
                         ? [
-                            ...result?.map(({ id }) => ({ type: "Relevancy-score", id })),
-                            "Relevancy-score",
+                            ...result?.map(({ id }) => ({ type: "Room", id })),
+                            "Room",
                         ]
-                        : ["Relevancy-score"],
+                        : ["Room"],
             }),
-            createQuestion: build.mutation({
+            createRoom: build.mutation({
                 query: (createCategoryData) => {
                     return {
-                        url: `/api/category-master/`,
+                        url: `/api/tutor/`,
                         method: "POST",
                         body: createCategoryData,
                         headers: {
@@ -41,7 +41,7 @@ const allApi = createApi({
                     };
                 },
                 invalidatesTags: (result, error, arg) => [
-                    { type: "Relevancy-score", id: arg.id },
+                    { type: "Room", id: arg.id },
                 ],
             }),
         };
@@ -49,7 +49,7 @@ const allApi = createApi({
 });
 
 export const {
-    useFetchRelevancyScoresQuery,
-    useCreateQuestionMutation,
+    useFetchRoomsQuery,
+    useCreateRoomMutation,
 } = allApi;
 export { allApi };
