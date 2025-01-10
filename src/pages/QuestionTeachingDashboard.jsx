@@ -78,7 +78,8 @@ const TeachersMeetingDashboard = () => {
     ]);
 
     // Calculate student count
-    const studentCount = students.filter(student => student.status === 'online').length;
+    const uniqueSenders = new Set(data?.messages?.map(message => message.sender));
+    const senderCount = uniqueSenders?.size;
 
     // Toggle question answered state
     const toggleAnswered = (id) => {
@@ -148,7 +149,7 @@ const TeachersMeetingDashboard = () => {
             <div className="section">
                 <h2>
                     Students
-                    <span className="student-count">{studentCount} Online</span>
+                    <span className="student-count">{senderCount} Online</span>
                 </h2>
                 <ul className="student-list">
                     {data?.messages?.map((message, index) => (
