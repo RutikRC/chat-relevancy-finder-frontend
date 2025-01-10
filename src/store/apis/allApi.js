@@ -44,6 +44,23 @@ const allApi = createApi({
                     { type: "Room", id: arg.id },
                 ],
             }),
+            createChat: build.mutation({
+                query: (createCategoryData) => {
+                    return {
+                        url: `/api/chat/`,
+                        method: "POST",
+                        body: createCategoryData,
+                        headers: {
+                            Accept: "application/json",
+                            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+                            "Content-Type": "application/json",
+                        },
+                    };
+                },
+                invalidatesTags: (result, error, arg) => [
+                    { type: "Chat", id: arg.id },
+                ],
+            }),
             getRoomDetails: build.query({
                 query: ({ id }) => {
                   return {
@@ -64,5 +81,6 @@ export const {
     useFetchRoomsQuery,
     useCreateRoomMutation,
     useGetRoomDetailsQuery,
+    useCreateChatMutation,
 } = allApi;
 export { allApi };

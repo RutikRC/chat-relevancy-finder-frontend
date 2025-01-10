@@ -1,97 +1,94 @@
-import React from "react";
-// import "./LiveClassChat.css"; // Move your CSS styles here
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import io from "socket.io-client";
+import { useCreateChatMutation } from "../store/store";
+
+const socket = io("http://localhost:5000");
 
 const LiveClassChat = () => {
-  const room = { title: "Live Class Room" };
-  const messages = [
-    {
-      user: { username: "JohnDoe" },
-      content: "Hello everyone!",
-      timestamp: "10:30",
-    },
-    {
-      user: { username: "JaneSmith" },
-      content: "Hi John! How are you?",
-      timestamp: "10:31",
-    },
-    {
-      user: { username: "JohnDoe" },
-      content: "I'm doing great, thanks!",
-      timestamp: "10:32",
-    },
-  ];
+  const location = useLocation();
+  const [messages, setMessages] = useState([]);
+  const [messageInput, setMessageInput] = useState("");
+
+  // Extract roomId and username from the URL parameters
+  const params = new URLSearchParams(location.search);
+  const roomId = params.get("roomId");
+  const username = params.get("username");
+  console.log("room Id",roomId);
+  console.log("username",username);
+
+  const [createChat] = useCreateChatMutation();
+
+  useEffect(() => {
+    if (roomId && username) {
+      // Join the room
+      socket.emit("join_room", { roomID: roomId, userName: username }, (response) => {
+        if (response?.error) {
+          alert(response.error);
+        } else {
+          setMessages(response.messages || []);
+        }
+      });
+
+      // Listen for incoming messages
+      socket.on("receive_message", (message) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      });
+    }
+
+    return () => {
+      // Clean up socket events on unmount
+      socket.off("receive_message");
+    };
+  }, [roomId, username]);
+
+  const handleSendMessage = () => {
+    if (!messageInput.trim()) return;
+
+    const messageData = {
+      room: roomId,
+      sender: username,
+      chat: messageInput,
+    };
+
+    // Emit the send_message event
+    createChat(messageData);
+    setMessageInput(""); // Clear the input field
+  };
 
   return (
     <div className="chat-container">
-      {/* Sidebar (Optional if required later) */}
-
-      {/* Main chat area */}
       <main className="chat-main">
         <div className="chat-header">
-          <h1>{room.title}</h1>
-          <div className="header-actions">
-            <button className="action-btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M15.6 11.6L22 7v10l-6.4-4.5v-1Z" />
-                <path d="M4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2Z" />
-              </svg>
-              Start Video
-            </button>
-            <button className="action-btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m3 11 18-5v12L3 14v-3z" />
-                <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
-              </svg>
-              Unmute
-            </button>
-          </div>
+          <h1>Live Class Chat</h1>
         </div>
 
         <div className="chat-messages" id="message-list">
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={
-                msg.user.username === "JohnDoe" ? "message-sent" : "message-received"
-              }
+              className={msg.sender === username ? "message-sent" : "message-received"}
             >
-              <div className="message-avatar">
-                {msg.user.username.slice(0, 1).toUpperCase()}
-              </div>
+              <div className="message-avatar">{msg.user?.username?.slice(0, 1).toUpperCase()}</div>
               <div className="message-content">
                 <div className="message-header">
-                  <span className="message-author">{msg.user.username}</span>
-                  <span className="message-time">{msg.timestamp}</span>
+                  <span className="message-author">{msg.sender}</span>
+                  <span className="message-time">{new Date().toLocaleTimeString()}</span>
                 </div>
-                <p>{msg.content}</p>
+                <p>{msg.chat}</p>
               </div>
             </div>
           ))}
         </div>
 
         <div className="chat-input">
-          <input type="text" id="message-input" placeholder="Type your message..." />
-          <button className="send-btn">
+          <input
+            type="text"
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+            placeholder="Type your message..."
+          />
+          <button onClick={handleSendMessage} className="send-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"

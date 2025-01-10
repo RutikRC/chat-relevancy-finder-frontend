@@ -18,5 +18,6 @@ export default store;
 export {
   useFetchRoomsQuery,
   useCreateRoomMutation,
-  useGetRoomDetailsQuery
+  useGetRoomDetailsQuery,
+  useCreateChatMutation,
 } from "./apis/allApi";

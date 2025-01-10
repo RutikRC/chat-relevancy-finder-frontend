@@ -3,7 +3,6 @@ import CreateForm from './pages/InputForm';
 import CommentRelevancyTable from './pages/SpamPage';
 import Dashboard from './pages/Dashboard';
 import LiveClassChat from './pages/LiveClassChat';
-import QuestionsDashboard from './pages/QuestionsDashboard';
 import CreateMeetingForm from './pages/CreateMeetingForm';
 import TeacherMeetingDashboard from './pages/TeachingQuestionDashboard';
 import TeachersMeetingDashboard from './pages/QuestionTeachingDashboard';
