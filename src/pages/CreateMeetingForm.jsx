@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './room.css';
 import { useCreateRoomMutation } from '../store/store';
+import { generateAIResponse } from '../atoms/state';
 
 const CreateMeetingForm = () => {
     const [createRoom] = useCreateRoomMutation();
@@ -36,6 +37,22 @@ const CreateMeetingForm = () => {
             }
         },
     });
+
+     // Handle AI content generation
+     const handleGenerateWithAI = async () => {
+        console.log('Generating AI content...');
+        const topic = formik.values.title;
+
+        if (!topic.trim()) {
+            alert('Please enter a class title to generate content.');
+            return;
+        }
+
+        // Generate content for the text field
+        const aiContent = await generateAIResponse(topic);
+        formik.setFieldValue('text', aiContent); // Set the AI response to the text field
+    };
+
 
     return (
         <div className="container">
@@ -78,9 +95,7 @@ const CreateMeetingForm = () => {
                         <button
                             type="button"
                             className="ai-generate"
-                            onClick={() =>
-                                alert('AI generation is not yet implemented!')
-                            }
+                            onClick={handleGenerateWithAI}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -118,6 +133,7 @@ const CreateMeetingForm = () => {
                         </div>
                     ) : null}
                 </div>
+
 
                 <div className="form-actions">
                     <button

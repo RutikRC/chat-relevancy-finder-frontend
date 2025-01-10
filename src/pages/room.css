@@ -176,6 +176,10 @@ input[type="checkbox"]:checked::after {
     background: rgba(255, 255, 255, 0.05);
 }
 
+.error-message{
+    color: brown;
+}
+
 /* Placeholder Styling */
 ::placeholder {
     color: #666;
