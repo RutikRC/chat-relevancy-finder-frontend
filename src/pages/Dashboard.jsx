@@ -1,6 +1,6 @@
 import React from "react";
 import { useFetchRoomsQuery } from "../store/store";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import "./Dashboard.css"; // Assuming the styles are in an external CSS file
 
 const Dashboard = () => {
@@ -11,6 +11,11 @@ const Dashboard = () => {
     { id: 3, name: "Students", icon: "users" },
     { id: 4, name: "Settings", icon: "settings" },
   ];
+  const navigate = useNavigate();
+
+  const handleView = (record) => {
+    navigate(`/questions-dashboard/${record?._id}`);
+  };
 
   // const previousClasses = [
   //   { id: 1, title: "Math Class", questions: 10 },
@@ -70,7 +75,12 @@ const Dashboard = () => {
                         {classItem.content} Content
                       </div>
                     </div>
-                    <button className="view-btn">View</button>
+                    <button 
+                      className="view-btn"
+                      onClick={() => handleView(classItem)}
+                    >
+                      View
+                    </button>
                   </div>
                 ))}
               </div>

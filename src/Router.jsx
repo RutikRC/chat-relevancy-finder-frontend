@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import LiveClassChat from './pages/LiveClassChat';
 import QuestionsDashboard from './pages/QuestionsDashboard';
 import CreateMeetingForm from './pages/CreateMeetingForm';
+import TeacherMeetingDashboard from './pages/TeachingQuestionDashboard';
 
 const router = createBrowserRouter([
     {
@@ -20,11 +21,15 @@ const router = createBrowserRouter([
         element: <LiveClassChat />,
     },
     {
+        path: "/teaching-dashboard",
+        element: <TeacherMeetingDashboard />,
+    },
+    {
         path: "/create-meeting",
         element: <CreateMeetingForm />,
     },
     {
-        path: "/questions-dashboard",
+        path: "/questions-dashboard/:id",
         element: <QuestionsDashboard />,
     },
     {
