@@ -10,6 +10,9 @@ const Navbar = () => {
           <NavLink to="/" className="hover:text-blue-200">
             MyApp
           </NavLink>
+          <NavLink to="/" className="hover:text-blue-200">
+            MyApp
+          </NavLink>
         </div>
 
         {/* Navigation Links */}
