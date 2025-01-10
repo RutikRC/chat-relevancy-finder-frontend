@@ -140,6 +140,7 @@ const TeachersMeetingDashboard = () => {
             </div>
         </div>
     );
+    
 
     return (
         <div className="container5">
@@ -150,7 +151,7 @@ const TeachersMeetingDashboard = () => {
                     <span className="student-count">{studentCount} Online</span>
                 </h2>
                 <ul className="student-list">
-                    {data?.messages?.map((message, index) => (
+                    {sampleData.messages.map((message, index) => (
                         <li className="student-item" key={index}>
                             <span className="student-status"></span>
                             {message.sender}
@@ -167,22 +168,34 @@ const TeachersMeetingDashboard = () => {
                     {data?.messages
                         .filter(message => message.prediction !== "Spam")
                         ?.map((message, index) => (
-                            <div key={index} className="question-card">
-                                <p>{message.comment}</p>
-                                <span>By {message.sender}</span>
-                            </div>
+                            renderQuestionCard({
+                                id: index, // Use index or any unique identifier for id
+                                text: message.comment,
+                                author: message.sender,
+                                time: new Date(message.timestamp).toLocaleString(),
+                                relevance: 100, // You can calculate or pass this as needed
+                                answered: false, // Or use any condition for answered state
+                                aiResponse: null, // Placeholder for AI response
+                            })
                         ))}
                 </div>
             </div>
-
 
             {/* Right Section - Related Questions */}
             <div className="section">
                 <h2>Related Questions</h2>
                 <div id="relatedQuestions">
-                    {relatedQuestions.map(renderRelatedQuestionCard)}
+                    {sampleData?.messages
+                        .filter(message => message.prediction !== "Spam")
+                        ?.map((message, index) => (
+                            renderRelatedQuestionCard({
+                                text: message.comment,
+                                relevance: 100, // Set relevance value as needed
+                            }, index)
+                        ))}
                 </div>
             </div>
+
         </div>
     );
 };
