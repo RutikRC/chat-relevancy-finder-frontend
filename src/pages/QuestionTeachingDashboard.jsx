@@ -151,7 +151,7 @@ const TeachersMeetingDashboard = () => {
                     <span className="student-count">{studentCount} Online</span>
                 </h2>
                 <ul className="student-list">
-                    {sampleData.messages.map((message, index) => (
+                    {data?.messages?.map((message, index) => (
                         <li className="student-item" key={index}>
                             <span className="student-status"></span>
                             {message.sender}
@@ -185,7 +185,7 @@ const TeachersMeetingDashboard = () => {
             <div className="section">
                 <h2>Related Questions</h2>
                 <div id="relatedQuestions">
-                    {sampleData?.messages
+                    {data?.messages
                         .filter(message => message.prediction !== "Spam")
                         ?.map((message, index) => (
                             renderRelatedQuestionCard({
