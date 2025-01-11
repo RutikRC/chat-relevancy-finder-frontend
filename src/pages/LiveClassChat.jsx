@@ -2,8 +2,31 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import io from "socket.io-client";
 import { useCreateChatMutation } from "../store/store";
+// import socket from "../atoms/socket";
+// const socket = io("http://localhost:5000", { autoConnect: false });
 
-const socket = io("http://localhost:5000");
+const socket = io("http://localhost:5000", {
+  transports: ["websocket"], 
+  withCredentials: true,
+});
+
+// useEffect(() => {
+//   socket.connect();
+//   return () => socket.disconnect();
+// }, []);
+
+socket.emit("test_event", { message: "Hello from client!" });
+socket.on("test_response", (response) => {
+  console.log("Response from server:", response);
+});
+
+socket.on("connect", () => {
+  console.log("Connected to socket server:", socket.id);
+});
+
+socket.on("disconnect", (reason) => {
+  console.log("Socket disconnected:", reason);
+});
 
 const LiveClassChat = () => {
   const location = useLocation();
@@ -30,8 +53,11 @@ const LiveClassChat = () => {
         }
       });
 
+      
+
       // Listen for incoming messages
       socket.on("receive_message", (message) => {
+        console.log("message :", message);
         setMessages((prevMessages) => [...prevMessages, message]);
       });
     }
@@ -51,8 +77,10 @@ const LiveClassChat = () => {
       chat: messageInput,
     };
 
+    socket.emit("send_message", messageData);
+
     // Emit the send_message event
-    createChat(messageData);
+    // createChat(messageData);
     setMessageInput(""); // Clear the input field
   };
 
@@ -75,7 +103,7 @@ const LiveClassChat = () => {
                   <span className="message-author">{msg.sender}</span>
                   <span className="message-time">{new Date().toLocaleTimeString()}</span>
                 </div>
-                <p>{msg.chat}</p>
+                <p>{msg.comment}</p>
               </div>
             </div>
           ))}

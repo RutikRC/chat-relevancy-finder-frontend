@@ -56,6 +56,13 @@
     position: relative;
 }
 
+.question-card p{
+    color: white;
+    text-align: left;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
 .question-meta {
     font-size: 0.8em;
     color: #888;
